@@ -150,6 +150,7 @@ const AdminHiringRequests = () => {
                 <th className="px-4 py-2">Email</th>
                 <th className="px-4 py-2">Position</th>
                 <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2">Notes</th>
                 <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
@@ -173,6 +174,26 @@ const AdminHiringRequests = () => {
                           <option key={opt} value={opt}>{opt.charAt(0).toUpperCase() + opt.slice(1)}</option>
                         ))}
                       </select>
+                    </td>
+                    <td className="px-4 py-2">
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={editingNotes[req.id] !== undefined ? editingNotes[req.id] : (req.notes || '')}
+                          onChange={e => handleNotesInputChange(req.id, e.target.value)}
+                          disabled={savingNotesId === req.id}
+                          placeholder={req.notes || 'Add notes...'}
+                          className="rounded bg-gray-800 border border-gray-700 text-primary-100 px-2 py-1 w-36 focus:ring-primary-500"
+                          title={req.notes || 'No previous notes'}
+                        />
+                        <button
+                          onClick={() => handleNotesSave(req.id)}
+                          disabled={savingNotesId === req.id || (editingNotes[req.id] === req.notes)}
+                          className="bg-primary-600 hover:bg-primary-700 text-white px-2 py-1 rounded text-xs font-semibold disabled:opacity-60"
+                        >
+                          {savingNotesId === req.id ? 'Saving...' : 'Save'}
+                        </button>
+                      </div>
                     </td>
                     <td className="px-4 py-2 flex gap-2">
                       <button
